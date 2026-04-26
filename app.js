@@ -66,6 +66,14 @@ async function deleteMemory(id) {
   });
 }
 
+async function hideDefaultMemory(memory) {
+  await saveMemory({
+    ...memory,
+    removed: true,
+    isDefault: true
+  });
+}
+
 function readFileAsDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -101,15 +109,14 @@ function renderMemories(memories) {
       openMemoryDialog(memory);
     });
 
-    if (memory.isDefault) {
-      deleteButton.hidden = true;
-    } else {
-      deleteButton.addEventListener("click", async () => {
+    deleteButton.addEventListener("click", async () => {
+      if (memory.isDefault) {
+        await hideDefaultMemory(memory);
+      } else {
         await deleteMemory(memory.id);
         await loadGallery();
       });
     }
-
     gallery.appendChild(node);
   });
 }
@@ -124,11 +131,12 @@ async function getDefaultMemories() {
       .map((memory) => [memory.id, memory])
   );
 
-  return availableDefaults.map((memory) => ({
-    ...memory,
-    ...(overrides.get(memory.id) || {})
-  }));
-}
+  return availableDefaults
+    .map((memory) => ({
+      ...memory,
+      ...(overrides.get(memory.id) || {})
+    }))
+    .filter((memory) => !memory.removed);
 
 async function loadGallery() {
   const [defaultMemories, storedMemories] = await Promise.all([getDefaultMemories(), getStoredMemories()]);
