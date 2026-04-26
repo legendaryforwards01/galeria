@@ -68,6 +68,7 @@
       <div class="memory-card-actions">
         <button class="delete-memory-button" type="button" aria-label="Remover memória">Remover</button>
       </div>
+      <p class="memory-date-preview"></p>
       <p class="memory-description-preview"></p>
     </article>
   </template>
@@ -85,6 +86,8 @@
       <label class="memory-dialog-label" for="memoryDescriptionInput">Descrição</label>
       <textarea id="memoryDescriptionInput" class="memory-dialog-textarea" rows="5" placeholder="Escreva uma lembrança bonita sobre essa foto..."></textarea>
 
+      <label class="memory-dialog-label" for="memoryDateInput">Data</label>
+      <input id="memoryDateInput" class="memory-dialog-date-input" type="date">
       <div class="memory-dialog-actions">
         <button id="saveDescriptionButton" class="add-memory-button" type="button">Salvar descrição</button>
       </div>
