@@ -13,6 +13,7 @@ const goToGalleryButton = document.getElementById("goToGalleryButton");
 const memoryDialog = document.getElementById("memoryDialog");
 const memoryDialogImage = document.getElementById("memoryDialogImage");
 const memoryDescriptionInput = document.getElementById("memoryDescriptionInput");
+const memoryDateInput = document.getElementById("memoryDateInput");
 const saveDescriptionButton = document.getElementById("saveDescriptionButton");
 
 let activeMemoryId = null;
@@ -92,6 +93,20 @@ function canLoadImage(src) {
   });
 }
 
+function formatMemoryDate(value) {
+  if (!value) {
+    return "";
+  }
+
+  const [year, month, day] = value.split("-");
+  if (!year || !month || !day) {
+    return value;
+  }
+
+  return `${day}/${month}/${year}`;
+}
+
+
 function renderMemories(memories) {
   gallery.innerHTML = "";
 
@@ -100,10 +115,12 @@ function renderMemories(memories) {
     const image = node.querySelector(".memory-image");
     const deleteButton = node.querySelector(".delete-memory-button");
     const openButton = node.querySelector(".memory-open-button");
+    const datePreview = node.querySelector(".memory-date-preview");
     const descriptionPreview = node.querySelector(".memory-description-preview");
 
     image.src = memory.src;
     image.alt = memory.title;
+    datePreview.textContent = memory.date ? formatMemoryDate(memory.date) : "";
     descriptionPreview.textContent = memory.description || "Toque na foto para escrever uma descricao.";
 
     openButton.addEventListener("click", () => {
@@ -154,6 +171,7 @@ function openMemoryDialog(memory) {
   memoryDialogImage.src = memory.src;
   memoryDialogImage.alt = memory.title || "Memoria";
   memoryDescriptionInput.value = memory.description || "";
+  memoryDateInput.value = memory.date || "";
   memoryDialog.showModal();
 }
 
@@ -174,6 +192,7 @@ async function saveDescription() {
   await saveMemory({
     ...baseMemory,
     description: memoryDescriptionInput.value.trim(),
+    date: memoryDateInput.value || "",
     isDefault: activeMemoryIsDefault
   });
 
@@ -194,6 +213,7 @@ memoryInput.addEventListener("change", async (event) => {
       src,
       title: file.name.replace(/\.[^.]+$/, "") || "Nova memoria",
       description: "",
+      date: "",
       isDefault: false,
       createdAt: new Date().toISOString()
     });
