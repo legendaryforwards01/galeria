@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#d95b83">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Nossas Memórias">
+  <meta name="description" content="galeria">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="imagem3.png" type="image/png">
+  <link rel="shortcut icon" href="imagem3.png" type="image/png">
+  <link rel="apple-touch-icon" href="imagem3.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <title>Nossas Memórias</title>
+</head>
+<body>
+  <div class="page-decor page-decor-left" aria-hidden="true"></div>
+  <div class="page-decor page-decor-right" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="hero-kicker">Galeria PauVanna</p>
+    <h1>Nossas Memórias</h1>
+    <p class="hero-text">
+      Fiz esse aplicativo pra a gente guardar nossas memórias
+    </p>
+
+    <div class="hero-actions">
+      <button id="goToGalleryButton" class="add-memory-button" type="button">Ir pra galeria</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="info-card" aria-label="Introdução do site">
+      <div class="info-item">
+        <strong>Um álbum de fotos</strong>
+        <span>As fotos que você botar vão ficar salvas e você pode revisitar quando quiser.</span>
+      </div>
+    </section>
+
+    <section id="gallerySection" class="gallery-section gallery-section-hidden">
+      <div class="section-heading">
+        <h2>Álbum de Memórias</h2>
+        <p>As fotos iniciais que eu já botei aparecem aqui, e você pode completar o álbum com novas lembranças.</p>
+      </div>
+      <div class="gallery-toolbar">
+        <label class="add-memory-button" for="memoryInput">
+          <span>Adicionar memória</span>
+        </label>
+        <input id="memoryInput" type="file" accept="image/*" multiple>
+      </div>
+      <div id="gallery" class="gallery" aria-live="polite"></div>
+    </section>
+
+  </main>
+
+  <template id="memoryCardTemplate">
+    <article class="memory-card">
+      <div class="memory-frame">
+        <img class="memory-image" alt="">
+        <button class="memory-open-button" type="button" aria-label="Abrir memória"></button>
+      </div>
+      <div class="memory-card-actions">
+        <button class="delete-memory-button" type="button" aria-label="Remover memória">Remover</button>
+      </div>
+      <p class="memory-description-preview"></p>
+    </article>
+  </template>
+
+  <dialog id="memoryDialog" class="memory-dialog">
+    <form method="dialog" class="memory-dialog-card">
+      <div class="memory-dialog-header">
+        <button id="closeMemoryDialogButton" class="dialog-close-button" type="submit" aria-label="Fechar">Fechar</button>
+      </div>
+
+      <div class="memory-dialog-image-wrap">
+        <img id="memoryDialogImage" class="memory-dialog-image" alt="">
+      </div>
+
+      <label class="memory-dialog-label" for="memoryDescriptionInput">Descrição</label>
+      <textarea id="memoryDescriptionInput" class="memory-dialog-textarea" rows="5" placeholder="Escreva uma lembrança bonita sobre essa foto..."></textarea>
+
+      <div class="memory-dialog-actions">
+        <button id="saveDescriptionButton" class="add-memory-button" type="button">Salvar descrição</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
