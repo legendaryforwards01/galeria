@@ -95,7 +95,7 @@ function canLoadImage(src) {
 function renderMemories(memories) {
   gallery.innerHTML = "";
 
-  memories.forEach((memory, index) => {
+  memories.forEach((memory) => {
     const node = template.content.firstElementChild.cloneNode(true);
     const image = node.querySelector(".memory-image");
     const deleteButton = node.querySelector(".delete-memory-button");
@@ -104,7 +104,8 @@ function renderMemories(memories) {
 
     image.src = memory.src;
     image.alt = memory.title;
-    descriptionPreview.textContent = memory.description || "Toque na foto para escrever uma descrição.";
+    descriptionPreview.textContent = memory.description || "Toque na foto para escrever uma descricao.";
+
     openButton.addEventListener("click", () => {
       openMemoryDialog(memory);
     });
@@ -114,9 +115,11 @@ function renderMemories(memories) {
         await hideDefaultMemory(memory);
       } else {
         await deleteMemory(memory.id);
-        await loadGallery();
-      });
-    }
+      }
+
+      await loadGallery();
+    });
+
     gallery.appendChild(node);
   });
 }
@@ -137,6 +140,7 @@ async function getDefaultMemories() {
       ...(overrides.get(memory.id) || {})
     }))
     .filter((memory) => !memory.removed);
+}
 
 async function loadGallery() {
   const [defaultMemories, storedMemories] = await Promise.all([getDefaultMemories(), getStoredMemories()]);
